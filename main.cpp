@@ -29,7 +29,7 @@ int main()
     //Ввод необходимых данных для рассчета
     std::cout<<"Введите значение угла тангажа: ";
     std::cin>>pitchAngle;
-    pitchAngle=conversionFromDegreesToRadians(-pitchAngle);
+    pitchAngle=conversionFromDegreesToRadians(pitchAngle);
 
     std::cout<<"Введите значение угла крена: ";
     std::cin>>bankAngle;
@@ -37,15 +37,15 @@ int main()
 
     std::cout<<"Введите значение угла курса: ";
     std::cin>>headingAngle;
-    headingAngle=conversionFromDegreesToRadians(-headingAngle);
+    headingAngle=conversionFromDegreesToRadians(headingAngle);
 
-    std::vector<double> unitVector=getUnitVector(azimuthRelativeAFSP,elevationAngleRelativeAFSP);
+    std::vector<std::vector<double>> unitVector=getUnitVector(azimuthRelativeAFSP,elevationAngleRelativeAFSP);
 
 
-    unitVector=rotationAroundAxes(pitchAngle,bankAngle,headingAngle,unitVector);
+    unitVector=rotationAroundAxes(-pitchAngle,bankAngle,-headingAngle,unitVector);
 
-    double azimuthOverGround=-atan(unitVector[0]/unitVector[1]);
-    double elevationAngleRelativeGround=M_PI-atan(sqrt(unitVector[0]*unitVector[0]+unitVector[1]*unitVector[1])/unitVector[3]);
+    double azimuthOverGround=-atan(unitVector[0][0]/unitVector[1][0]);
+    double elevationAngleRelativeGround=M_PI-atan(sqrt(unitVector[0][0]*unitVector[0][0]+unitVector[1][0]*unitVector[1][0])/unitVector[2][0]);
 
     std::cout<<"Азимут: "<<conversionFromRadiansToDegrees(azimuthOverGround)<<" в градусах\n";
     std::cout<<"Угол места: "<<conversionFromRadiansToDegrees(elevationAngleRelativeGround)<<" в градусах\n";
